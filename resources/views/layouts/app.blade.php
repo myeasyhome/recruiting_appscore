@@ -19,6 +19,12 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker.css"
           rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <style>
+        .anyClass {
+            overflow-y: scroll;
+            margin-top: 10px;
+        }
+    </style>
 
 </head>
 <body>

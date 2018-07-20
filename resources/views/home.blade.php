@@ -48,41 +48,41 @@
                                     </select>
                                 </div>
                                 <div class="form-group col-sm-2 mb-0">
-                                    <div class="col-md-8 offset-md-4">
-                                        <button type="submit" class="btn btn-primary">
-                                            {{ __('Search') }}
-                                        </button>
-                                    </div>
+                                    <button type="submit" class="btn btn-primary">
+                                        {{ __('Search') }}
+                                    </button>
                                 </div>
                             </div>
                         </form>
-                        <table id="candidateList" class="table table-striped table-bordered">
-                            <thead>
-                            <tr>
-                                <th>{{ __('Name')}}</th>
-                                <th>{{ __('Role')}}</th>
-                                <th>{{ __('Client')}}</th>
-                                <th>{{ __('Interview Time')}}</th>
-                                <th>{{ __('Rate')}}</th>
-                                <th>{{ __('Create Time')}}</th>
-                                <th>{{ __('Action')}}</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @foreach($candidates as $candidate)
+                        <div class="anyClass">
+                            <table id="candidateList" class="table table-striped table-bordered">
+                                <thead>
                                 <tr>
-                                    <td>{{ucfirst(sprintf('%s %s',$candidate->first_name, $candidate->last_name)) }}</td>
-                                    <td>{{ $candidate->role_name }}</td>
-                                    <td>{{ $candidate->client_name }}</td>
-                                    <td>{{ Carbon\Carbon::parse($candidate->interview_time)->format('Y-m-d') }}</td>
-                                    <td>{{ $candidate->rate }}</td>
-                                    <td>{{ $candidate->created_at }}</td>
-                                    <td><a href="{{ route('candidateUpdate',$candidate->id)}}"
-                                           class="btn btn-primary btn-sm">{{ __('Edit Candidate')}} </a></td>
+                                    <th>{{ __('Name')}}</th>
+                                    <th>{{ __('Role')}}</th>
+                                    <th>{{ __('Client')}}</th>
+                                    <th>{{ __('Interview Time')}}</th>
+                                    <th>{{ __('Rate')}}</th>
+                                    <th>{{ __('Create Time')}}</th>
+                                    <th>{{ __('Action')}}</th>
                                 </tr>
-                            @endforeach
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                @foreach($candidates as $candidate)
+                                    <tr>
+                                        <td>{{ucfirst(sprintf('%s %s',$candidate->first_name, $candidate->last_name)) }}</td>
+                                        <td>{{ $candidate->role_name }}</td>
+                                        <td>{{ $candidate->client_name }}</td>
+                                        <td>{{ Carbon\Carbon::parse($candidate->interview_time)->format('Y-m-d') }}</td>
+                                        <td>{{ $candidate->rate }}</td>
+                                        <td>{{ $candidate->created_at }}</td>
+                                        <td><a href="{{ route('candidateUpdate',$candidate->id)}}"
+                                               class="btn btn-primary btn-sm">{{ __('Edit Candidate')}} </a></td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
