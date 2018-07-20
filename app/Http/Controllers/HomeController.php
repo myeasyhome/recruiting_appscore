@@ -40,10 +40,12 @@ class HomeController extends Controller
         $roles = $this->role_model->getRoles();
         $clients = $this->client_model->getClients();
         $recruiters = $this->recruiter_model->getRecruiters();
+        $criteria = array('role_id' => 'all', 'rate' => 10, 'created_at' => 'all');
         return view('home', array(
           'candidates' => $candidates,
           'roles' => $roles,
           'clients' => $clients,
-          'recruiters' => $recruiters));
+          'recruiters' => $recruiters,
+          'criteria' => $criteria));
     }
 }

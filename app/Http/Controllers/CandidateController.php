@@ -83,6 +83,29 @@ class CandidateController extends Controller
         //
     }
 
+    public function query(Request $request)
+    {
+
+        $criteria = array(
+          'created_at' => $request->created_at,
+          'role_id' => $request->role_id,
+          'rate' => $request->rate
+        );
+        $candidates = $this->candidate_model->getCandidatesByCriteria($criteria);
+        $roles = $this->role_model->getRoles();
+        $clients = $this->client_model->getClients();
+        $recruiters = $this->recruiter_model->getRecruiters();
+        if ($candidates) {
+            return view('home', array(
+              'candidates' => $candidates,
+              'roles' => $roles,
+              'clients' => $clients,
+              'recruiters' => $recruiters,
+              'criteria' => $criteria));
+        }
+        return redirect()->back();
+    }
+
     /**
      * Show the form for creating a new resource.
      *

@@ -23,6 +23,8 @@ Route::get('candidate/{candidate_id}', 'CandidateController@edit')->name('candid
 
 Route::post('candidate/{candidate_id}', 'CandidateController@update')->name('candidateUpdated');
 
+Route::post('/home', 'CandidateController@query')->name('candidateQuery');
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

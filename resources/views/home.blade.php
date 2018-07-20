@@ -5,12 +5,58 @@
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header">{{  __('Candidates List')}}</div>
-                    <div class="card-body">
+                    <div class="card-header">{{  __('Candidates List')}}
                         <div class="row float-right">
-                            <a href="{{route('candidateCreate')}}" class="btn btn-primary">{{ __('Add Candidate') }}</a>
+                            <a href="{{route('candidateCreate')}}"
+                               class="btn btn-primary btn-sm">{{ __('Add Candidate') }}</a>
                         </div>
-                        <table id="candidateList" class="table table-striped table-bordered" style="margin-top:45px">
+                    </div>
+                    <div class="card-body">
+                        <form action="{{route('candidateQuery')}}" method="post">
+                            {{ csrf_field() }}
+                            <div class="row">
+                                <div class="form-group col-sm-4">
+                                    <label class="col-form-label">{{ __('Role')}}</label>
+                                    <select id="role"
+                                            class="form-control{{ $errors->has('role_id') ? ' is-invalid' : '' }}"
+                                            name="role_id">
+                                        <option value="all">All</option>
+                                        @foreach($roles as $role)
+                                            <option value="{{$role->id}}" {{$role->id != $criteria['role_id']?:'selected'}}>{{$role->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group col-sm-3">
+                                    <label class="col-form-label">{{ __('Rate')}}</label>
+                                    <select id="rate" class="form-control" name="rate">
+                                        @for($i =1; $i <=10;$i++)
+                                            <option value="{{$i}}" {{$i != $criteria['rate'] ?:'selected'}}>{{$i}}+
+                                            </option>
+                                        @endfor
+                                    </select>
+                                </div>
+                                <div class="form-group col-sm-3">
+                                    <label class="col-form-label">{{ __('Created Time')}}</label>
+                                    <select id="created_at" class="form-control" name="created_at">
+                                        <option value="all">All</option>
+                                        <option value="greater_6month" {{ $criteria['created_at'] !='greater_6month'?:'selected'}}>
+                                            > 6 Month
+                                        </option>
+                                        <option value="less_6month" {{$criteria['created_at'] !='less_6month'?:'selected'}}>
+                                            < 6 Month
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-sm-2 mb-0">
+                                    <div class="col-md-8 offset-md-4">
+                                        <button type="submit" class="btn btn-primary">
+                                            {{ __('Search') }}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <table id="candidateList" class="table table-striped table-bordered">
                             <thead>
                             <tr>
                                 <th>{{ __('Name')}}</th>
@@ -42,9 +88,4 @@
             </div>
         </div>
     </div>
-    <script>
-        $(document).ready(function() {
-            $('#candidateList').DataTable();
-        } );
-    </script>
 @endsection

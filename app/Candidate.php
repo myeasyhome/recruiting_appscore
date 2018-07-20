@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
@@ -30,23 +31,47 @@ class Candidate extends Model
 
     public function getCandidatesByCriteria(array $criteria)
     {
-        if ($criteria) {
-
+        $candidates = DB::table('candidates')
+          ->leftJoin('roles', 'roles.id', '=', 'candidates.role_id')
+          ->leftJoin('clients', 'clients.id', '=', 'candidates.client_id')
+          ->leftJoin('recruiters', 'recruiters.id', '=', 'candidates.recruiter_id')
+          ->leftJoin('interviews', 'interviews.candidate_id', '=', 'candidates.id')
+          ->select('candidates.first_name', 'candidates.last_name', 'candidates.created_at', 'candidates.rate', 'candidates.id', 'roles.name as role_name', 'recruiters.name as recruiter_name', 'clients.name as client_name', 'interviews.interview_time')
+          ->orderBy('candidates.id', 'desc');
+        // apply the criteria
+        if (array_key_exists('created_at', $criteria) && $criteria['created_at'] != 'all') {
+            if ($criteria['created_at'] == 'greater_6month') {
+                $candidates
+                  ->where('candidates.created_at', '<=', Carbon::now()->subMonth(6));
+            }
+            if ($criteria['created_at'] == 'less_6month') {
+                $candidates
+                  ->where('candidates.created_at', '<=', now())
+                  ->where('candidates.created_at', '>', Carbon::now()->subMonth(6));
+            }
         }
-        $candidates = DB::select('select * from candidates where role_id = ? and ', array($criteria));
-        return $candidates;
+        if (array_key_exists('rate', $criteria)) {
+            $candidates
+              ->where('candidates.rate', '>=', $criteria['rate']);
+        }
+        if (array_key_exists('role_id', $criteria) && $criteria['role_id'] != 'all') {
+            $candidates
+              ->where('candidates.role_id', '=', $criteria['role_id']);
+        }
+
+        return $candidates->get();
     }
 
     public function getCandidates()
     {
-        $candidates = DB::select(
-          'select can.*, roles.name as role_name, recruiters.name as recruiter_name, clients.name as client_name, interviews.interview_time from candidates can
-            left join roles on roles.id = can.role_id
-            left join clients on clients.id = can.client_id
-            left join recruiters on recruiters.id = can.recruiter_id
-            left join interviews on can.id = interviews.candidate_id
-            order by can.id desc');
-        return $candidates;
+        $candidates = DB::table('candidates')
+          ->leftJoin('roles', 'roles.id', '=', 'candidates.role_id')
+          ->leftJoin('clients', 'clients.id', '=', 'candidates.client_id')
+          ->leftJoin('recruiters', 'recruiters.id', '=', 'candidates.recruiter_id')
+          ->leftJoin('interviews', 'interviews.candidate_id', '=', 'candidates.id')
+          ->select('candidates.first_name', 'candidates.last_name', 'candidates.created_at', 'candidates.rate', 'candidates.id', 'roles.name as role_name', 'recruiters.name as recruiter_name', 'clients.name as client_name', 'interviews.interview_time')
+          ->orderBy('candidates.id', 'desc');
+        return $candidates->get();
     }
 
     public function updateCandidate($candidate)
