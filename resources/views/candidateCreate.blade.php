@@ -130,8 +130,9 @@
                                 <label for="interviews"
                                        class="col-sm-4 col-form-label text-md-right">{{ __('Interview Time *')}}</label>
                                 <div class="col-md-6">
-                                    <input class="form-control{{ $errors->has('interviews') ? ' is-invalid' : '' }}"
-                                           name="interviews" type="datetime" required>
+                                    <input id="interviews_date"
+                                           class="form-control{{ $errors->has('interviews') ? ' is-invalid' : '' }}"
+                                           name="interviews" value={{now()}} type="datetime" required>
                                     @if ($errors->has('interviews'))
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $errors->first('interviews') }}</strong>
@@ -194,4 +195,11 @@
             </div>
         </div>
     </div>
+    <script type="text/javascript">
+        $('#interviews_date').datepicker({
+            defaultDate: new Date(),
+            format: 'yyyy-mm-dd',
+            sideBySide: true
+        });
+    </script>
 @endsection

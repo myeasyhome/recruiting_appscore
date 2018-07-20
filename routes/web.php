@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Redirect;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,7 +14,7 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return Redirect::route('login');
 });
 
 Route::get('candidate/add', 'CandidateController@create')->name('candidateCreate');

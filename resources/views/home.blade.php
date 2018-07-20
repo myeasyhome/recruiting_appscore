@@ -74,7 +74,7 @@
                                     <td>{{ucfirst(sprintf('%s %s',$candidate->first_name, $candidate->last_name)) }}</td>
                                     <td>{{ $candidate->role_name }}</td>
                                     <td>{{ $candidate->client_name }}</td>
-                                    <td>{{ $candidate->interview_time }}</td>
+                                    <td>{{ Carbon\Carbon::parse($candidate->interview_time)->format('Y-m-d') }}</td>
                                     <td>{{ $candidate->rate }}</td>
                                     <td>{{ $candidate->created_at }}</td>
                                     <td><a href="{{ route('candidateUpdate',$candidate->id)}}"

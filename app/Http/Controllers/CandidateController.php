@@ -168,6 +168,11 @@ class CandidateController extends Controller
         );
 
         $candidates = $this->candidate_model->getCandidates();
+        $roles = $this->role_model->getRoles();
+        $clients = $this->client_model->getClients();
+        $recruiters = $this->recruiter_model->getRecruiters();
+        $criteria = array('role_id' => 'all', 'rate' => 10, 'created_at' => 'all');
+
         $candidate_id = $this->candidate_model->createCandidate($candidate);
         if ($candidate_id) {
             $interviews = array(
@@ -180,7 +185,12 @@ class CandidateController extends Controller
                 $candidates = $this->candidate_model->getCandidates();
             }
         };
-        return view('home', array('candidates' => $candidates));
+        return view('home', array(
+          'candidates' => $candidates,
+          'roles' => $roles,
+          'clients' => $clients,
+          'recruiters' => $recruiters,
+          'criteria' => $criteria));
     }
 
     /**

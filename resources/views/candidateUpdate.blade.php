@@ -24,7 +24,8 @@
                                 {{ session('error_msg') }}
                             </div>
                         @endif
-                        <form action="{{route('candidateUpdated',$candidate->id)}}" method="post" enctype="multipart/form-data">
+                        <form action="{{route('candidateUpdated',$candidate->id)}}" method="post"
+                              enctype="multipart/form-data">
                             {{ csrf_field() }}
                             <div class="form-group row">
                                 <label class="col-sm-4 col-form-label text-md-right">{{ __('First Name')}}</label>
@@ -110,8 +111,9 @@
                                 <label for="interviews"
                                        class="col-sm-4 col-form-label text-md-right">{{ __('Interview Time')}}</label>
                                 <div class="col-md-6">
-                                    <input class="form-control{{ $errors->has('interviews') ? ' is-invalid' : '' }}"
-                                           name="interviews" value="{{ $interviews?$interviews->interview_time:''}}"
+                                    <input id='interviews_date'
+                                           class="form-control{{ $errors->has('interviews') ? ' is-invalid' : '' }}"
+                                           name="interviews" value="{{ $interviews? Carbon\Carbon::parse($interviews->interview_time)->format('Y-m-d'):''}}"
                                            type="datetime" required>
                                     <input type="hidden" name="interviews_id"
                                            value="{{$interviews?$interviews->id:''}}">
@@ -173,4 +175,11 @@
             </div>
         </div>
     </div>
+    <script type="text/javascript">
+        $('#interviews_date').datepicker({
+            defaultDate: new Date(),
+            format: 'yyyy-mm-dd',
+            sideBySide: true
+        });
+    </script>
 @endsection
